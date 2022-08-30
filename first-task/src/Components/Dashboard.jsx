@@ -3,21 +3,39 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Modal from '@mui/material/Modal';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  backgroundColor: 'white',
+  boxShadow: 24,
+};
+
 
 const Dashboard = () => {
   const [data, setData] = useState([])
-  const [message, setMessage] = useState()
-
+  const [id, setId] = useState()
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("")
+  const handleOpen = (id) => {
+    setId(id)
+    setOpen(true);
+  }
+  const handleClose = () => setOpen(false);
+  const handleDelete = () => {
+    axios.delete(`/delete/${id}`).then((res) => setMessage(res.data)).then(() => setTimeout(() => {
+      setMessage('')
+    }, 2000))
+    handleClose()
+  }
   useEffect(() => {
     axios.get('/users').then((res) => setData(res.data))
   }, [message])
-
-  const handleDelete = (id) => {
-    axios.delete(`/delete/${id}`).then((res) => setMessage(res.data.msg)
-    ).then(() => setTimeout(() => {
-      setMessage("")
-    }, 2000))
-  }
 
   return (
     <div className='container mt-5'>
@@ -34,18 +52,36 @@ const Dashboard = () => {
 
           {
             data.length > 0 ? data.map((item, index) => {
+
               return (
                 <tr key={index}>
                   <td>{item.username}</td>
                   <td>{item.email}</td>
                   <td>{item.password}</td>
-                  <td><button className='btn btn-danger' onClick={() => handleDelete(item._id)}>Delete</button>
+                  <td className='d-flex'>
+
+                    <button className='btn btn-danger' onClick={() => handleOpen(item._id)}>Delete</button>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <div className='modal-modify shadow rounded' style={style}>
+                        <h4 className='m-3'>
+                          Are you sure you want to delete..?
+                        </h4>
+                        <button onClick={handleDelete} className='btn btn-danger ms-3 mb-3'>Yes</button>
+                        <button onClick={handleClose} className='btn btn-primary ms-3 mb-3'>No</button>
+
+                      </div>
+                    </Modal>
+
                     <Link className='btn btn-info ms-3' to={`/update/${item._id}`}>Update</Link></td>
                 </tr>
               )
             }) : []
           }
-
         </tbody>
       </table>
     </div>

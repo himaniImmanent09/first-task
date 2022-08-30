@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function SignIn() {
-
-    const [status, setStatus] = useState()
     const [formData, setFormdata] = useState({
         email: '',
         password: ''
@@ -26,14 +24,18 @@ export default function SignIn() {
         e.preventDefault();
         await axios
             .post("/login", { formData })
-            .then((res) => setStatus(res.data))
+            .then(function(res) {
+                if(res.data == 200) {
+                    navigate("/dashboard")
+                }else(
+                    alert('incorrect credentials')
 
+                )
+            })
     }
 
-
-    if (status === 200) {
-        navigate('/dashboard')
-    }
+    
+   
 
     return (
         <div className='container mt-5'>
@@ -41,11 +43,12 @@ export default function SignIn() {
                 <div className="col-3"></div>
                 <div className="col-5">
                     <h3>SignIn Form</h3>
-                    <form className='shadow p-4' onSubmit={handleSubmit}>
+                    <form className='shadow p-4' >
                         <div className="mb-3">
                             <label className="form-label ms-0">Email address</label>
                             <input type="email" className="form-control"
                                 name='email'
+                                value={formData.email}
                                 onChange={handleChange} />
 
                         </div>
@@ -53,10 +56,11 @@ export default function SignIn() {
                             <label className="form-label">Password</label>
                             <input type="password"
                                 name='password'
+                                value={formData.password}
                                 className="form-control"
                                 onChange={handleChange} />
                         </div>
-                        <button className='btn btn-primary'>Login</button>
+                        <button onClick={handleSubmit} className='btn btn-primary'>Login</button>
 
                         {/* <Link type="submit" className="btn btn-success ms-3" to='signup'>SignUp Form</Link> */}
                     </form>

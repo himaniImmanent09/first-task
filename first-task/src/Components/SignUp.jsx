@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { postDataAPI } from '../Api';
+
 
 export default function SignUp() {
     const [formData, setFormdata] = useState({
@@ -25,7 +25,7 @@ export default function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
+        // console.log(formData)
         await axios
             .post("/signup", {
                 username: formData.username,
@@ -39,9 +39,6 @@ export default function SignUp() {
             .catch(function () {
                 alert("Could not creat account. Please try again");
             });
-
-       
-
     }
 
 
