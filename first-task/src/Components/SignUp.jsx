@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postDataAPI } from '../Api';
 
 export default function SignUp() {
@@ -21,26 +21,27 @@ export default function SignUp() {
 
     }
 
+    let navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData)
-        // const res = await postDataAPI('signup')
-
         await axios
-			.post("/signup", {
-				username: formData.username,
-				email: formData.email,
+            .post("/signup", {
+                username: formData.username,
+                email: formData.email,
                 password: formData.password,
-			})
-			.then(function () {
-				alert("Account created successfully");
-				window.location.reload();
-			})
-			.catch(function () {
-				alert("Could not creat account. Please try again");
-			});
-	
+            })
+            .then(function () {
+                alert("Account created successfully");
+                navigate('/')
+            })
+            .catch(function () {
+                alert("Could not creat account. Please try again");
+            });
+
+       
+
     }
 
 
@@ -75,7 +76,7 @@ export default function SignUp() {
 
                         <button type="submit" className="btn btn-primary">Submit</button>
 
-                        <Link type="submit" className="btn btn-success ms-3" to='/'>SignIn Form</Link>
+                        {/* <Link type="submit" className="btn btn-success ms-3" to='/'>SignIn Form</Link> */}
                     </form>
 
                 </div>

@@ -1,0 +1,6 @@
+# dependencies
+
+node_modules
+package-lock.json
+first-task/node_modules
+first-task/package-lock.json

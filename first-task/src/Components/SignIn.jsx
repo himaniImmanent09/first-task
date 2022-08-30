@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function SignIn() {
+
+    const [status, setStatus] = useState()
     const [formData, setFormdata] = useState({
         email: '',
         password: ''
@@ -18,11 +21,19 @@ export default function SignIn() {
 
     }
 
-    const handleSubmit = (e) => {
+    let navigate = useNavigate()
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        await axios
+            .post("/login", { formData })
+            .then((res) => setStatus(res.data))
 
     }
 
+
+    if (status === 200) {
+        navigate('/dashboard')
+    }
 
     return (
         <div className='container mt-5'>
@@ -47,7 +58,7 @@ export default function SignIn() {
                         </div>
                         <button className='btn btn-primary'>Login</button>
 
-                        <Link type="submit" className="btn btn-success ms-3" to='signup'>SignUp Form</Link>
+                        {/* <Link type="submit" className="btn btn-success ms-3" to='signup'>SignUp Form</Link> */}
                     </form>
 
 
