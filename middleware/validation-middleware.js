@@ -1,9 +1,9 @@
 const validator = require('../helper/validator');
 const signup = async (req, res, next) => {
     const validationRule = {
-        "email": "required|string|email",
-        "username": "required|string",
-        "password": "required|string|min:6|confirmed",
+        "email": "required|email|exist:User,email",
+        "username": "required|string|exist:User,username",
+        "password": "required|string|min:6|strict",
     };
 
     await validator(req.body, validationRule, {}, (err, status) => {
@@ -17,7 +17,7 @@ const signup = async (req, res, next) => {
         } else {
             next();
         }
-    }).catch( err => console.log(err))
+    }).catch(err => console.log(err))
 }
 module.exports = {
     signup

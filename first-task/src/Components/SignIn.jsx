@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function SignIn() {
+    const[err, setErr] = useState('')
     const [formData, setFormdata] = useState({
         email: '',
         password: ''
@@ -25,17 +26,14 @@ export default function SignIn() {
         await axios
             .post("/login", { formData })
             .then(function(res) {
-                if(res.data == 200) {
+                console.log(res)
+                if(res.data.status === 1) {
                     navigate("/dashboard")
                 }else(
-                    alert('incorrect credentials')
-
+                    setErr(res.data.errors)
                 )
             })
     }
-
-    
-   
 
     return (
         <div className='container mt-5'>
@@ -44,7 +42,7 @@ export default function SignIn() {
                 <div className="col-5">
                     <h3>SignIn Form</h3>
                     <form className='shadow p-4' >
-                        <div className="mb-3">
+                        <div className="mt-3">
                             <label className="form-label ms-0">Email address</label>
                             <input type="email" className="form-control"
                                 name='email'
@@ -52,7 +50,8 @@ export default function SignIn() {
                                 onChange={handleChange} />
 
                         </div>
-                        <div className="mb-3">
+                        <p className='text-danger'>{err.email? err.email:""}</p>
+                        <div className="mt-3">
                             <label className="form-label">Password</label>
                             <input type="password"
                                 name='password'
@@ -60,6 +59,7 @@ export default function SignIn() {
                                 className="form-control"
                                 onChange={handleChange} />
                         </div>
+                        <p className='text-danger'>{err.password? err.password:""}</p>
                         <button onClick={handleSubmit} className='btn btn-primary'>Login</button>
 
                         {/* <Link type="submit" className="btn btn-success ms-3" to='signup'>SignUp Form</Link> */}

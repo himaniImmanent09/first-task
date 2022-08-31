@@ -1,19 +1,38 @@
 const router = require('express').Router();
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
+// const validation = require('../middleware/validation-middleware')
+const regValidation = require('../helper/registrationValidation')
+const signValidation = require('../helper/signInValidation')
 
 router.post('/signup', async (req, res) => {
-    var username = req.body.username;
-    var email = req.body.email;
-    var password = req.body.password;
-
-    const passwordHash = await bcrypt.hash(password, 10)
-    var newUser = new User({
-        username: username,
-        email: email,
-        password: passwordHash
-    })
     try {
+
+        const { errors, isValid } = regValidation(req.body)
+
+        if (!isValid) {
+            return res.json({ status: 0, errors })
+        }
+
+        var username = req.body.username;
+        var email = req.body.email;
+        var password = req.body.password;
+
+        const user = await User.findOne({ email });
+        if (user) {
+            return res.json({
+                status: 0,
+                errors: { email: "email already exists" }
+            })
+        }
+
+
+        const passwordHash = await bcrypt.hash(password, 10)
+        var newUser = new User({
+            username: username,
+            email: email,
+            password: passwordHash
+        })
         await newUser.save();
         return res.status(201).json({
             success: true,
@@ -25,7 +44,7 @@ router.post('/signup', async (req, res) => {
             success: false,
             message: error.message
         })
-         
+
         //  // Create token
         //  const token = jwt.sign(
         //     { user_id: newUser._id, email },
@@ -42,22 +61,39 @@ router.post('/signup', async (req, res) => {
 )
 
 router.post('/login', async (req, res) => {
+
+    const { errors, isValid } = signValidation(req.body.formData)
+
+    if (!isValid) {
+        return res.json({ status: 0, errors })
+    }
+
+
     var email = req.body.formData.email;
     var password = req.body.formData.password;
 
     const user = await User.findOne({ email });
+    if (!user) {
+        return res.json({
+            status: 0,
+            errors: { email: "incorrect email" }
+        })
+    }
+
 
     const isMatch = await bcrypt.compare(password, user.password)
 
-       
-
     if (!isMatch) {
-        return res.json(400)
+        return res.json({
+            status: 0,
+            errors: { password: "incorrect password" }
+        })
 
     } else {
-  
-          return res.json(200)
-
+        return res.json({
+            status: 1
+            // errors:{email:"user does not exists"}
+        })
     }
 })
 

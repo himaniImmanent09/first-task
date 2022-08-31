@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function SignUp() {
+    const[err, setErr] = useState('')
     const [formData, setFormdata] = useState({
         username: '',
         email: '',
@@ -32,9 +33,18 @@ export default function SignUp() {
                 email: formData.email,
                 password: formData.password,
             })
-            .then(function () {
-                alert("Account created successfully");
-                navigate('/')
+            .then(function (res) {
+                if(res.data.success === true){
+                    console.log(res.data)
+                    alert("Account created successfully");
+                    navigate('/')
+                }
+                else{
+                    console.log(res.data)
+                    setErr(res.data.errors)
+                    // alert("check credentitials");
+                }
+             
             })
             .catch(function () {
                 alert("Could not creat account. Please try again");
@@ -49,27 +59,30 @@ export default function SignUp() {
                 <div className="col-5">
                     <h3>SignUp Form</h3>
                     <form className='shadow p-4' onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                        <div className="mt-1">
                             <label className="form-label ms-0">UserName</label>
                             <input type="text" className="form-control"
                                 name='username'
                                 onChange={handleChange} />
 
                         </div>
-                        <div className="mb-3">
+                        <span className='text-danger'>{err.username? err.username:""}</span>
+                        <div className="mt-3">
                             <label className="form-label ms-0">Email address</label>
                             <input type="email" className="form-control"
                                 name='email'
                                 onChange={handleChange} />
 
                         </div>
-                        <div className="mb-3">
+                        <p className='text-danger'>{err.email? err.email:""}</p>
+                        <div className="mt-3">
                             <label className="form-label">Password</label>
                             <input type="password"
                                 name='password'
                                 className="form-control"
                                 onChange={handleChange} />
                         </div>
+                        <p className='text-danger'>{err.password? err.password:""}</p>
 
                         <button type="submit" className="btn btn-primary">Submit</button>
 
