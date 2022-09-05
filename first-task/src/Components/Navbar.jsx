@@ -1,5 +1,5 @@
 import React ,{useEffect, useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { postDataAPI , getDataAPI} from '../Api/Api';
 
 export default function Navbar() {
@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Navbar</Link>
+        <NavLink className="navbar-brand" to="/">Navbar</NavLink>
         {/* <h5>{user  ? user.email :""}</h5> */}
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -37,22 +37,22 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/dashboard">Dashboard</Link>
+              <NavLink className="nav-link" aria-current="page" to="/dashboard">Dashboard</NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/showblogs">AllBlogs</Link>
+              <NavLink className="nav-link" aria-current="page" to="/showblogs">AllBlogs</NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/myblogs">MyBlogs</Link>
+              <NavLink className="nav-link" aria-current="page" to="/myblogs">MyBlogs</NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">SignIn</Link>
+              <NavLink className="nav-link" aria-current="page" to="/">SignIn</NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="signup">Signup</Link>
+              <NavLink className="nav-link" to="signup">Signup</NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="#" onClick={() => logout()}>Logout</Link>
+              <NavLink className="nav-link" to="/" onClick={() => logout()}>Logout</NavLink>
             </li>
 
           </ul>
