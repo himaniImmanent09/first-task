@@ -3,18 +3,18 @@ import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router'
+import { getDataAPI, postDataAPI } from '../Api/Api';
 
 const UpdateForm = () => {
     const [userDetail, setUserDetail] = useState({
         email: "",
         username: "",
-        password: ""
     })
 
     let { id } = useParams();
 
     useEffect(() => {
-        axios.get(`/user/${id}`).then((res) => setUserDetail
+        getDataAPI(`get_user/${id}`).then((res) => setUserDetail
             (res.data.user))
     }, [])
 
@@ -27,7 +27,7 @@ const UpdateForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const res = await axios.post(`/update/${id}`, { userDetail })
+        const res = await postDataAPI(`update/${id}`, { userDetail })
         if (res.data.status === 200) {
             navigate('/dashboard')
         }
@@ -48,11 +48,11 @@ const UpdateForm = () => {
                     <input type="email" className="form-control" placeholder="Enter email" name='email' value={userDetail.email}
                         onChange={handleChange} />
                 </div>
-                <div className="form-group m-2">
+                {/* <div className="form-group m-2">
                     <label>Password</label>
                     <input type="text" className="form-control" placeholder="Password" name='password' value={userDetail.password}
                         onChange={handleChange} />
-                </div>
+                </div> */}
 
                 <button type="submit" className="btn btn-primary m-2" onClick={handleSubmit}>Submit</button>
             </form>

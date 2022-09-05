@@ -2,10 +2,11 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { postDataAPI } from '../Api/Api';
 
 
 export default function SignUp() {
-    const[err, setErr] = useState('')
+    const [err, setErr] = useState('')
     const [formData, setFormdata] = useState({
         username: '',
         email: '',
@@ -27,24 +28,23 @@ export default function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // console.log(formData)
-        await axios
-            .post("/signup", {
-                username: formData.username,
-                email: formData.email,
-                password: formData.password,
-            })
+        postDataAPI("signup", {
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+        })
             .then(function (res) {
-                if(res.data.success === true){
+                if (res.data.success === true) {
                     console.log(res.data)
                     alert("Account created successfully");
                     navigate('/')
                 }
-                else{
+                else {
                     console.log(res.data)
                     setErr(res.data.errors)
                     // alert("check credentitials");
                 }
-             
+
             })
             .catch(function () {
                 alert("Could not creat account. Please try again");
@@ -66,7 +66,7 @@ export default function SignUp() {
                                 onChange={handleChange} />
 
                         </div>
-                        <span className='text-danger'>{err.username? err.username:""}</span>
+                        <span className='text-danger'>{err.username ? err.username : ""}</span>
                         <div className="mt-3">
                             <label className="form-label ms-0">Email address</label>
                             <input type="email" className="form-control"
@@ -74,7 +74,7 @@ export default function SignUp() {
                                 onChange={handleChange} />
 
                         </div>
-                        <p className='text-danger'>{err.email? err.email:""}</p>
+                        <p className='text-danger'>{err.email ? err.email : ""}</p>
                         <div className="mt-3">
                             <label className="form-label">Password</label>
                             <input type="password"
@@ -82,7 +82,7 @@ export default function SignUp() {
                                 className="form-control"
                                 onChange={handleChange} />
                         </div>
-                        <p className='text-danger'>{err.password? err.password:""}</p>
+                        <p className='text-danger'>{err.password ? err.password : ""}</p>
 
                         <button type="submit" className="btn btn-primary">Submit</button>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import axios from 'axios'
+import { deleteDataAPI } from '../Api/Api';
 
 const style = {
     position: 'absolute',
@@ -20,7 +20,9 @@ export default function DeleteComponent(data) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleDelete = (id) => {
-        axios.delete(`/delete/${id}`)
+
+        deleteDataAPI(`delete/${id}`)
+        // axios.delete(`/delete/${id}`)
         handleClose()
     }
 

@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { postDataAPI } from '../Api/Api';
 
 export default function SignIn() {
-    const[err, setErr] = useState('')
+
+    const [err, setErr] = useState('')
     const [formData, setFormdata] = useState({
         email: '',
         password: ''
@@ -23,13 +24,14 @@ export default function SignIn() {
     let navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios
-            .post("/login", { formData })
-            .then(function(res) {
-                console.log(res)
-                if(res.data.status === 1) {
-                    navigate("/dashboard")
-                }else(
+
+        postDataAPI('login', { email: formData.email, password: formData.password })
+            .then(function (res) {
+               
+                if (res.data.status === 1) {
+    
+                    navigate("/myblogs")
+                } else (
                     setErr(res.data.errors)
                 )
             })
@@ -50,7 +52,7 @@ export default function SignIn() {
                                 onChange={handleChange} />
 
                         </div>
-                        <p className='text-danger'>{err.email? err.email:""}</p>
+                        <p className='text-danger'>{err.email ? err.email : ""}</p>
                         <div className="mt-3">
                             <label className="form-label">Password</label>
                             <input type="password"
@@ -59,7 +61,7 @@ export default function SignIn() {
                                 className="form-control"
                                 onChange={handleChange} />
                         </div>
-                        <p className='text-danger'>{err.password? err.password:""}</p>
+                        <p className='text-danger'>{err.password ? err.password : ""}</p>
                         <button onClick={handleSubmit} className='btn btn-primary'>Login</button>
 
                         {/* <Link type="submit" className="btn btn-success ms-3" to='signup'>SignUp Form</Link> */}
