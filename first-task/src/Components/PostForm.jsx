@@ -21,7 +21,7 @@ const PostForm = () => {
 
   }, []);
 
-  console.log(user)
+  // console.log(user)
 
 
   const handleChange = (e) => {
@@ -39,12 +39,10 @@ const PostForm = () => {
 
     setTimeout(() => {
       setMessage('')
-      navigate('/myblogs')
+      navigate('/dashboard/myblogs')
     }, 2000);
 
   }
-
-
 
 
   return (
@@ -59,7 +57,7 @@ const PostForm = () => {
           <textarea type="text" name='details' className="form-control" rows="4" onChange={handleChange}></textarea>
         </div>
         <div>
-          <span className='text-success mb-3'>{message ? message : ""}</span>
+          <h5 className='text-success mb-3'>{message ? message : ""}</h5>
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>

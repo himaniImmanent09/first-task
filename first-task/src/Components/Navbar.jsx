@@ -1,9 +1,8 @@
-import React ,{useEffect, useState} from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import React ,{useEffect} from 'react'
+import {  NavLink, useNavigate } from 'react-router-dom';
 import { postDataAPI , getDataAPI} from '../Api/Api';
 
 export default function Navbar() {
-  const [user, setUser] = useState()
   let navigate = useNavigate()
 
   const logout = async (e) => {
@@ -18,7 +17,6 @@ export default function Navbar() {
   useEffect(() => {
     getDataAPI("user/refresh_token").then(function(res) {
       if (res.data.status === 0) {
-        console.log(res.data.status);
         navigate("/signin");
       }
     });
@@ -37,19 +35,22 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink className="nav-link" aria-current="page" to="/dashboard">Dashboard</NavLink>
+              <NavLink className="nav-link" aria-current="page" to="/dashboard/users">Dashboard</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" aria-current="page" to="/showblogs">AllBlogs</NavLink>
+              <NavLink className="nav-link" aria-current="page" to="/dashboard/showblogs">AllBlogs</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" aria-current="page" to="/myblogs">MyBlogs</NavLink>
+              <NavLink className="nav-link" aria-current="page" to="/dashboard/myblogs">MyBlogs</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" aria-current="page" to="/">SignIn</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="signup">Signup</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="game">game</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/" onClick={() => logout()}>Logout</NavLink>

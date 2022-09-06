@@ -36,7 +36,6 @@ const Dashboard = () => {
 
   async function getUser() {
     getDataAPI("user/refresh_token").then(function (token) {
-      // console.log(token)
       if (token.data.accesstoken) {
         getDataAPI(
           `get_user/${token.data.id}`,
@@ -47,7 +46,7 @@ const Dashboard = () => {
       }
     });
   }
-  // console.log(user)
+
 
 
   const handleClose = () => setOpen(false);
@@ -64,7 +63,6 @@ const Dashboard = () => {
   return (
     <>
 
-      <Link className='btn btn-success m-4' to='/postform'>Create Blog</Link>
 
       <div className='container mt-5'>
         <table className="table table-striped table-dark">
@@ -105,7 +103,7 @@ const Dashboard = () => {
                         </div>
                       </Modal>
 
-                      <Link className='btn btn-info ms-3' to={`/update/${item._id}`}>Update</Link></td>
+                      <Link className='btn btn-info ms-3' to={`/dashboard/update/${item._id}`}>Update</Link></td>
                   </tr>
                 )
               }) : []

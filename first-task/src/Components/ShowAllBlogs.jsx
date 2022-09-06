@@ -20,7 +20,6 @@ const style = {
 
 const ShowAllBlogs = () => {
     const [userData, setUserData] = useState([])
-    const [singleUser, setSingleUser] = useState({})
     const [data, setData] = useState([])
     const [id, setId] = useState()
     const [open, setOpen] = useState(false)
@@ -31,8 +30,6 @@ const ShowAllBlogs = () => {
         setId(id)
         setOpen(true);
     }
-
-
 
     useEffect(() => {
         getDataAPI('user/refresh_token').then(function (token) {
@@ -74,7 +71,7 @@ const ShowAllBlogs = () => {
     return (
         <div>
 
-            <Link className='btn btn-success m-4' to='/postform'>Create Blog</Link>
+            <Link className='btn btn-success m-4' to='/dashboard/postform'>Create Blog</Link>
 
             {data.length > 0 ? data.map((item, index) => {
                 // console.log(item)
@@ -93,8 +90,8 @@ const ShowAllBlogs = () => {
                                     <p className="card-text">{item.details}</p>
                                 </div>
                                 <div className='d-flex mt-3'>
-                                    <Link to={`/updateblog/${item._id}`}><FiEdit className='fs-4' /></Link>
-                                    <AiFillDelete className='fs-4' style={{ cursor: 'pointer' }} onClick={() => handleOpen(item._id)} />
+                                    {/* <Link to={`/dashboard/updateblog/${item._id}`}><FiEdit className='fs-4' /></Link> */}
+                                    {/* <AiFillDelete className='fs-4' style={{ cursor: 'pointer' }} onClick={() => handleOpen(item._id)} /> */}
 
                                     <Modal
                                         open={open}

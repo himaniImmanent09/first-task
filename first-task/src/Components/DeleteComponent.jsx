@@ -22,7 +22,6 @@ export default function DeleteComponent(data) {
     const handleDelete = (id) => {
 
         deleteDataAPI(`delete/${id}`)
-        // axios.delete(`/delete/${id}`)
         handleClose()
     }
 

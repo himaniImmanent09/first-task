@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postDataAPI } from '../Api/Api';
 
 export default function SignIn() {
-
+    const [message, setMessage] = useState('')
     const [err, setErr] = useState('')
     const [formData, setFormdata] = useState({
         email: '',
@@ -27,10 +27,14 @@ export default function SignIn() {
 
         postDataAPI('login', { email: formData.email, password: formData.password })
             .then(function (res) {
-               
+
                 if (res.data.status === 1) {
-    
-                    navigate("/myblogs")
+                    setMessage(res.data.msg)
+                    setTimeout(() => {
+                        setMessage('')
+                        navigate("/dashboard/myblogs")
+                    }, 2000);
+
                 } else (
                     setErr(res.data.errors)
                 )
@@ -62,6 +66,7 @@ export default function SignIn() {
                                 onChange={handleChange} />
                         </div>
                         <p className='text-danger'>{err.password ? err.password : ""}</p>
+                        <h5 className='text-success'>{message ? message : ''}</h5>
                         <button onClick={handleSubmit} className='btn btn-primary'>Login</button>
 
                         {/* <Link type="submit" className="btn btn-success ms-3" to='signup'>SignUp Form</Link> */}

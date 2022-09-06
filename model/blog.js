@@ -5,17 +5,17 @@ const schema = mongoose.Schema;
 const blogSchema = new schema({
     title: {
         type: String,
-        required: true    
-    }, 
+        required: true
+    },
     details: {
         type: String,
         required: true
-    }, 
-    userId:{
-        type:String,
-        required:true
+    },
+    userId: {
+        type: String,
+        required: true
     }
-},{
+}, {
     timestamps: true,
 })
 

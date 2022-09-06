@@ -16,7 +16,7 @@ router.get('/user/refresh_token', userController.refreshToken)
 
 router.post('/user/logout', userController.logout)
 
-router.delete('/delete/:id', userController.delete)
+router.delete('/delete/:id', userController.deleteUser)
 
 
 

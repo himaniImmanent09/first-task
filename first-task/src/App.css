@@ -41,3 +41,10 @@
 padding: 20px;
 }
 
+.pressed{
+  background-color: rgb(169, 129, 206)!important;
+}
+
+.secondPressed{
+  background-color: red!important;
+}

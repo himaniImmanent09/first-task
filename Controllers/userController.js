@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const regValidation = require('../helper/registrationValidation')
 const signValidation = require('../helper/signInValidation')
 const jwt = require('jsonwebtoken')
+const blog = require('../model/blog')
 
 
 const userController = {
@@ -129,9 +130,12 @@ const userController = {
         res.json(users)
     },
 
-    delete: async (req, res) => {
+    deleteUser: async (req, res) => {
 
         await User.findByIdAndDelete({ _id: req.params.id })
+        await blog.find({ userId: req.params.id }).deleteMany({})
+
+
         res.json({ msg: "deleted successfully" })
     },
 
@@ -150,7 +154,7 @@ const userController = {
     refreshToken: async (req, res) => {
         try {
             const rf_token = req.cookies.refreshtoken;
-            // console.log(req.cookies, "cookieeesssss")
+            
             if (!rf_token) {
                 return res.json({ status: 0, msg: "Please Login or Register" })
             }
@@ -168,9 +172,9 @@ const userController = {
                     if (!result) {
                         return res.json({ status: 0, msg: "user does not exist" });
                     }
-                    // console.log(result, "result");
+                
                     const user = await User.findById(result.id);
-                    // console.log(user, "user");
+           
 
                     let access_token;
                     if (user) {

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { postDataAPI } from '../Api/Api';
 
 export default function SignUp() {
     const [err, setErr] = useState('')
+    const [message, setMessage] = useState('')
     const [formData, setFormdata] = useState({
         username: '',
         email: '',
@@ -35,9 +35,13 @@ export default function SignUp() {
         })
             .then(function (res) {
                 if (res.data.success === true) {
-                    console.log(res.data)
-                    alert("Account created successfully");
-                    navigate('/')
+                    // console.log(res.data.message)
+                    setMessage(res.data.message)
+                    setTimeout(() => {
+                        setMessage('')
+                        navigate('/')
+                    }, 2000);
+
                 }
                 else {
                     console.log(res.data)
@@ -85,6 +89,8 @@ export default function SignUp() {
                         <p className='text-danger'>{err.password ? err.password : ""}</p>
 
                         <button type="submit" className="btn btn-primary">Submit</button>
+
+                        <p className='text-success'>{message ? message : ""}</p>
 
                         {/* <Link type="submit" className="btn btn-success ms-3" to='/'>SignIn Form</Link> */}
                     </form>

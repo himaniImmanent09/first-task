@@ -3,12 +3,8 @@ import './App.css';
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import Navbar from './Components/Navbar';
-import Dashboard from './Components/Dashboard';
-import UpdateForm from './Components/UpdateForm';
-import PostForm from './Components/PostForm';
-import ShowBlogs from './Components/ShowBlogs';
-import UpdateBlog from './Components/UpdateBlog';
-import ShowAllBlogs from './Components/ShowAllBlogs';
+import Layout from './Components/Layout';
+import Game from './Components/Game';
 
 function App() {
 
@@ -20,12 +16,8 @@ function App() {
         <Route path='/' element={<SignIn />}></Route>
         <Route path='/signin' element={<SignIn />}></Route>
         <Route path='/signup' element={<SignUp />}></Route>
-        <Route path='/dashboard' element={<Dashboard />}></Route>
-        <Route path='/update/:id' element={<UpdateForm />}></Route>
-        <Route path='/postform' element={<PostForm />}></Route>
-        <Route path='/myblogs' element={<ShowBlogs />}></Route>
-        <Route path='/showblogs' element={<ShowAllBlogs/>}></Route>
-        <Route path='/updateblog/:id' element={<UpdateBlog />}></Route>
+        <Route path='/game' element={<Game/>}></Route>
+     <Route path='/dashboard/*' element={<Layout/>}></Route>
       </Routes>
     </BrowserRouter>
   );

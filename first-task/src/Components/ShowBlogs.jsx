@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteDataAPI, getDataAPI } from '../Api/Api';
 import { FiEdit } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
@@ -23,7 +23,7 @@ const ShowBlogs = () => {
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState("")
   const [user, setUser] = useState();
-  let navigate = useNavigate()
+
 
   const handleOpen = (id) => {
     setId(id)
@@ -37,8 +37,6 @@ const ShowBlogs = () => {
       if (token.data.user._id) {
         getDataAPI(`get_user/${token.data.user._id}`, token.data.access_token)
           .then((res) => setUser(res.data.user._id))
-   
-
       }
     });
 
@@ -72,7 +70,7 @@ const ShowBlogs = () => {
   return (
     <div>
 
-      <Link className='btn btn-success m-4' to='/postform'>Create Blog</Link>
+      <Link className='btn btn-success m-4' to='/dashboard/postform'>Create Blog</Link>
 
       {data.length > 0 ? data.map((item, index) => {
         return (
@@ -84,7 +82,7 @@ const ShowBlogs = () => {
                   <p className="card-text">{item.details}</p>
                 </div>
                 <div className='d-flex mt-3'>
-                  <Link to={`/updateblog/${item._id}`}><FiEdit className='fs-4' /></Link>
+                  <Link to={`/dashboard/updateblog/${item._id}`}><FiEdit className='fs-4' /></Link>
                   <AiFillDelete className='fs-4' style={{ cursor: 'pointer' }} onClick={() => handleOpen(item._id)} />
 
                   <Modal

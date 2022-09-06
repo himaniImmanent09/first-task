@@ -33,7 +33,7 @@ const UpdateBlog = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     postDataAPI(`blogs/update/${id}`, { blog })
-    navigate('/showblogs')
+    navigate('/dashboard/myblogs')
   }
 
   return (
