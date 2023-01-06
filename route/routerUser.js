@@ -1,23 +1,17 @@
-const router = require('express').Router();
-const userController = require('../Controllers/userController')
+const router = require("express").Router();
+const userController = require("../Controllers/userController");
 
+router.post("/signup", userController.signup);
 
-router.post('/signup', userController.signup)
+router.post("/login", userController.login);
 
-router.post('/login', userController.login)
+router.get("/users", userController.users);
 
-router.post('/update/:id', userController.update)
+router.get("/get_user/:id", userController.singleUser);
 
-router.get('/users', userController.users)
+router.get("/user/refresh_token", userController.refreshToken);
 
-router.get('/get_user/:id', userController.singleUser)
-
-router.get('/user/refresh_token', userController.refreshToken)
-
-router.post('/user/logout', userController.logout)
-
-router.delete('/delete/:id', userController.deleteUser)
-
+router.post("/user/logout", userController.logout);
 
 
 module.exports = router;

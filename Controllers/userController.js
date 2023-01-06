@@ -139,12 +139,6 @@ const userController = {
         res.json({ msg: "deleted successfully" })
     },
 
-    update: async (req, res) => {
-        const { username, email } = req.body.userDetail
-
-        const user = await User.findByIdAndUpdate({ _id: req.params.id }, { username: username, email: email })
-        res.json({ user, status: 200 })
-    },
 
     singleUser: async (req, res) => {
         const user = await User.findOne({ _id: req.params.id })
