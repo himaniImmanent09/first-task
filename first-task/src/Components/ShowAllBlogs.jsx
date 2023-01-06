@@ -6,11 +6,26 @@ import { getDataAPI } from "../Api/Api";
 const ShowAllBlogs = () => {
   const [data, setData] = useState([]);
 
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    getDataAPI("user/refresh_token").then(function (token) {
+      if (token.data.user._id) {
+        getDataAPI(
+          `get_user/${token.data.user._id}`,
+          token.data.access_token
+        ).then((res) => setUser(res.data.user._id));
+      }
+    });
+  }, []);
+
+  console.log(user)
+
+
   const getblogs = () => {
     getDataAPI(`blogs/all`).then((res) => setData(res.data));
   };
 
-  console.log(data)
 
   useEffect(() => {
     getblogs();
@@ -18,9 +33,12 @@ const ShowAllBlogs = () => {
 
   return (
     <div>
-      <Link className="btn btn-success m-4" to="/dashboard/postform">
+      {user !== undefined && 
+        <Link className="btn btn-success m-4" to="/dashboard/postform">
         Create Blog
       </Link>
+      }
+    
 
       {data.length > 0
         ? data.map((item, index) => {
